@@ -1,2 +1,2 @@
 # REST
-Warsztaty III
+Workshop III
