@@ -47,9 +47,9 @@ class Book {
         
         if (!is_null($id)) {
             $id = $conn->real_escape_string($id);
-            $sql = "SELECT * FROM books WHERE id =$id";
+            $sql = 'SELECT * FROM books WHERE id ='.$id.';';
         } else {
-            $sql = "SELECT * FROM books";
+            $sql = 'SELECT * FROM books;';
         }
         
         $result = $conn->query($sql);
@@ -66,10 +66,10 @@ class Book {
         $author = $conn->real_escape_string($author);
         $description = $conn->real_escape_string($description);
         
-        if (strlen(trim($description)) == 0) {
-            $sql = 'INSERT INTO books VALUES (null, "'.$title.'","'.$author.'","'.$description.'")';
+        if (strlen(trim($description)) != 0) {
+            $sql = 'INSERT INTO books (title, author, description) VALUES ("'.$title.'", "'.$author.'", "'.$description.'");';
         } else {
-            $sql = 'INSERT INTO books VALUES (null, "'.$title.'","'.$author.'")';
+            $sql = 'INSERT INTO books (title, author) VALUES ("'.$title.'", "'.$author.'");';
         }
         
         $result = $conn->query($sql);
@@ -87,18 +87,18 @@ class Book {
         $author = $conn->real_escape_string($author);
         $description = $conn->real_escape_string($description);
         
-        $sql = 'UPDATE books
-            SET title="'.$title.'", author="'.$author.'", description="'.$description.'"
-            WHERE id='.$id.';';
+        $sql = "UPDATE books
+            SET title='$title', author='$author', description='$description'
+            WHERE id=$id";
         
         $result = $conn->query($sql);
         
         return $result;
     }
     
-    public function deleteFronDB(mysqli $conn, $id) {
+    public function deleteFromDB(mysqli $conn, $id) {
         $id = $conn->real_escape_string($id);
-        $sql = 'DELETE FROM books WHERE id='.$id.';';
+        $sql = "DELETE FROM books WHERE id=$id";
         
         $result = $conn->query($sql);
         
