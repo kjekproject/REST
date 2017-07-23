@@ -16,7 +16,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         echo json_encode($result);
         break;
         
-    case'POST':
+    case 'POST':
         if(strlen(trim($_POST['title'])) > 0 
             && strlen(trim($_POST['author'])) > 0) {
             $book = new Book();
@@ -28,5 +28,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo json_encode(FALSE);
         }
         break;
+        
+    case 'DELETE':
+        parse_str(file_get_contents("php://input"), $del_vars);
+        
+        if(strlen(del_vars['id']) > 0) {
+            $book = new Book();
+            $result = $book->deleteFromDB($conn, $del_vars['id']);
+        }
+        
+        echo json_encode($result);
+        
+    break;
+        
         
 }

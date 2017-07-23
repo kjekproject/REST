@@ -1,5 +1,6 @@
 $(document).ready(function() {
     var addBookForm = $('#add-book-form');
+    //var deleteButton = $('#delete-button');
     
     loadBookList();  
     
@@ -23,6 +24,26 @@ $(document).ready(function() {
             console.log(addBook.name, 'failed!');        
         });
     });
+    
+    addBookForm.on('click', '.delete-button', function deleteBook(event) {
+        var bookToDeleteId = $(e.target).data('id');
+        
+        e.preventDefault();
+        
+        $ajax({
+            url: './api/books.php',
+            data: 'id=' + bookToDeleteId,
+            type: 'DELETE',
+            dataType: 'json',
+        })
+        .done(function() {
+            loadBookList();
+            console.log(deleteBook.name, 'resolved successfully');
+        })
+        .fail(function() {
+            console.log(deleteBook.name, 'failed!');
+        });
+    });
 });
 
 function loadBookList() {
@@ -39,8 +60,11 @@ function loadBookList() {
                 var singleBookData = result[i];
                 var singleBookTemplate = 
                     '<div class="col-xs-6 col-lg-4">'
-                        + '<h2>' + singleBookData.title + '</h2>'
-                        + '<span><a class="btn btn-default" href="./api/src/books.php?" role="button">More</a></span>'
+                        + '<h2>' + singleBookData.author + '</h2>'
+                        + '<h3>' + singleBookData.title + '</h3>'
+                        + '<p>' + singleBookData.description + '</p>'
+                        + '<a class="btn btn-primary delete-button" role="button">Edit</a>'
+                        + '<a class="btn btn-danger" data-id="' + singleBookData.id +'" role="button">Delete</a>'
                     + '</div>';
                     $('#book-list').append(singleBookTemplate);
             }

@@ -62,7 +62,7 @@
             <p class="text-center">© 2017 KJ_Project</p>
         </footer>
         
-    <script src="js/script.js"></script>
+   <script src="js/script.js"></script>
     </body>
 </html>
 
