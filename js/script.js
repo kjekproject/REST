@@ -25,16 +25,17 @@ $(document).ready(function() {
         });
     });
     
-    addBookForm.on('click', '.delete-button', function deleteBook(event) {
-        var bookToDeleteId = $(e.target).data('id');
+    $('#book-list').on('click', '.delete-button', function deleteBook(event) {
+        console.log('jestem tu');
+        var bookToDeleteId = $(event.target).data('id');
         
-        e.preventDefault();
+        event.preventDefault();
         
-        $ajax({
+        $.ajax({
             url: './api/books.php',
             data: 'id=' + bookToDeleteId,
             type: 'DELETE',
-            dataType: 'json',
+
         })
         .done(function() {
             loadBookList();
@@ -63,8 +64,8 @@ function loadBookList() {
                         + '<h2>' + singleBookData.author + '</h2>'
                         + '<h3>' + singleBookData.title + '</h3>'
                         + '<p>' + singleBookData.description + '</p>'
-                        + '<a class="btn btn-primary delete-button" role="button">Edit</a>'
-                        + '<a class="btn btn-danger" data-id="' + singleBookData.id +'" role="button">Delete</a>'
+                        + '<a class="btn btn-primary" role="button">Edit</a>'
+                        + '<a class="btn btn-danger delete-button" data-id="' + singleBookData.id +'" role="button">Delete</a>'
                     + '</div>';
                     $('#book-list').append(singleBookTemplate);
             }
