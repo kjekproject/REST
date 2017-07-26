@@ -26,16 +26,12 @@ $(document).ready(function() {
     });
     
     $('#book-list').on('click', '.delete-button', function deleteBook(event) {
-        console.log('jestem tu');
         var bookToDeleteId = $(event.target).data('id');
-        
-        event.preventDefault();
         
         $.ajax({
             url: './api/books.php',
             data: 'id=' + bookToDeleteId,
             type: 'DELETE',
-
         })
         .done(function() {
             loadBookList();
@@ -45,7 +41,42 @@ $(document).ready(function() {
             console.log(deleteBook.name, 'failed!');
         });
     });
+
+    $('#book-list').on('click', '.edition-button', function editBook(event) {
+        var bookId = $(event.target).data('id');
+        
+        $.ajax({
+            url: './api/books.php',
+            data: {id: bookId},
+            type: 'GET',
+            dataType: "json",
+        })
+        .done(function(result) {
+            var singleBookData = result[0];
+            var editForm = $('.edit-book-form');
+            editForm.each(function(index, element) {$(this).hide();})
+            var editionForm = 
+                    '<form class="edit-book-form" onsubmit="return false;">'
+                        + '<div class="form-group">'
+                            + '<label for="titleInput">Title</label>'
+                            + '<input name="title" type="text" class="form-control" id="titleInput" value="'+ singleBookData.title +'">'
+                        + '</div>'
+                        + '<div class="form-group">'
+                            + '<label for="authorInput">Author</label>'
+                            + '<input name="author" type="text" class="form-control" id="authorInput" value="' + singleBookData.author + '">'
+                        + '</div>'
+                        + '<div class="form-group">'
+                            + '<label for="descriptionInput">Description</label>'
+                            + '<textarea name="description" class="form-control" rows="1" id="descriptionInput">' + singleBookData.description + '</textarea>'
+                        + '</div>'
+                        + '<button type="submit" class="btn btn-primary">Add book</button>'
+                    + '</form>';
+            $(event.target).parent().append(editionForm);
+        });
+        
+    });
 });
+
 
 function loadBookList() {
     $('#book-list').empty();
@@ -64,7 +95,7 @@ function loadBookList() {
                         + '<h2>' + singleBookData.author + '</h2>'
                         + '<h3>' + singleBookData.title + '</h3>'
                         + '<p>' + singleBookData.description + '</p>'
-                        + '<a class="btn btn-primary" role="button">Edit</a>'
+                        + '<a class="btn btn-primary edition-button" data-id="' + singleBookData.id +'" role="button">Edit</a>'
                         + '<a class="btn btn-danger delete-button" data-id="' + singleBookData.id +'" role="button">Delete</a>'
                     + '</div>';
                     $('#book-list').append(singleBookTemplate);
