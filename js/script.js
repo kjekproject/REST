@@ -44,6 +44,7 @@ $(document).ready(function() {
 
     $('#book-list').on('click', '.edition-button', function editBook(event) {
         var bookId = $(event.target).data('id');
+        $('#edit-book-form').remove();
         
         $.ajax({
             url: './api/books.php',
@@ -51,12 +52,10 @@ $(document).ready(function() {
             type: 'GET',
             dataType: "json",
         })
-        .done(function(result) {
+        .done(function(result) {   
             var singleBookData = result[0];
-            var editForm = $('.edit-book-form');
-            editForm.each(function(index, element) {$(this).hide();})
             var editionForm = 
-                    '<form class="edit-book-form" onsubmit="return false;">'
+                    '<form id="edit-book-form" onsubmit="return false;">'
                         + '<div class="form-group">'
                             + '<label for="titleInput">Title</label>'
                             + '<input name="title" type="text" class="form-control" id="titleInput" value="'+ singleBookData.title +'">'
