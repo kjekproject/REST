@@ -37,9 +37,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $result = $book->deleteFromDB($conn, $del_vars['id']);
         }
         
+        echo json_encode($result);    
+        break;
+        
+    case 'PUT':
+        parse_str(file_get_contents("php://input"), $put_vars);
+        
+        $book = new Book();
+        $result = $book->update($conn, $put_var['id'], $put_vars['title'], $put_vars['author'], $put_vars['description']);
+        
         echo json_encode($result);
-        
-    break;
-        
-        
+        break;
+    
+    default :
+        break;
 }

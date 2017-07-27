@@ -1,6 +1,5 @@
 $(document).ready(function() {
     var addBookForm = $('#add-book-form');
-    //var deleteButton = $('#delete-button');
     
     loadBookList();  
     
@@ -55,7 +54,7 @@ $(document).ready(function() {
         .done(function(result) {   
             var singleBookData = result[0];
             var editionForm = 
-                    '<form id="edit-book-form" onsubmit="return false;">'
+                    '<form id="update-book-form" onsubmit="return false;" data-id="' + singleBookData.id + '">'
                         + '<div class="form-group">'
                             + '<label for="titleInput">Title</label>'
                             + '<input name="title" type="text" class="form-control" id="titleInput" value="'+ singleBookData.title +'">'
@@ -68,11 +67,31 @@ $(document).ready(function() {
                             + '<label for="descriptionInput">Description</label>'
                             + '<textarea name="description" class="form-control" rows="1" id="descriptionInput">' + singleBookData.description + '</textarea>'
                         + '</div>'
-                        + '<button type="submit" class="btn btn-primary">Add book</button>'
+                        + '<button type="submit" class="btn btn-primary update-button">Save</button>'
                     + '</form>';
             $(event.target).parent().append(editionForm);
-        });
+        }); 
+    });
+    
+    $('#book-list').on('submit', '#update-book-form', function updateBook(event) {
+        var updateBookFormData = $(this).serialize();
+        var updateBookId = $(event.target).data('id');
         
+        event.preventDefault();
+      
+        $.ajax({
+            url: './api/books.php',
+            data: updateBookFormData + '&id=' + updateBookId,
+            type: 'PUT',
+            dataType: 'json',
+        })
+        .done(function() {
+            loadBookList();
+            console.log(updateBook.name, 'resolved successfully.');
+        })
+        .fail(function() {
+            console.log(updateBook.name, 'failed!'); 
+        });
     });
 });
 
