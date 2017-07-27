@@ -44,7 +44,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         parse_str(file_get_contents("php://input"), $put_vars);
         
         $book = new Book();
-        $result = $book->update($conn, $put_var['id'], $put_vars['title'], $put_vars['author'], $put_vars['description']);
+        $result = $book->update($conn, $put_vars['id'], $put_vars['title'], $put_vars['author'], $put_vars['description']);
         
         echo json_encode($result);
         break;
