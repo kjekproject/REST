@@ -1,7 +1,16 @@
 $(document).ready(function() {
     var addBookForm = $('#add-book-form');
+    var showAddBookFormBtn = $('#show-add-book-form');
     
     loadBookList();  
+    
+    showAddBookFormBtn.on('click', function showForm(event) {
+        var inputs = addBookForm.find('.form-control');
+        inputs.each(function() {
+            console.log($(this));
+        });
+        addBookForm.toggle();
+    });
     
     addBookForm.on('submit', function addBook(event) {
         var addBookFormData = $(this).serialize();
@@ -43,7 +52,7 @@ $(document).ready(function() {
 
     $('#book-list').on('click', '.edition-button', function editBook(event) {
         var bookId = $(event.target).data('id');
-        $('#edit-book-form').remove();
+        $('#update-book-form').remove();
         
         $.ajax({
             url: './api/books.php',
@@ -98,6 +107,7 @@ $(document).ready(function() {
 
 function loadBookList() {
     $('#book-list').empty();
+    $('#add-book-form').hide();
     
     $.ajax({
         url: "./api/books.php",

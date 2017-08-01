@@ -18,7 +18,7 @@
         <nav class="navbar navbar-fixed-top navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">BookStore</a>
+                    <a class="navbar-brand" href="index.php">BookStore</a>
                 </div>
             </div>
         </nav>
@@ -26,8 +26,10 @@
         <div class="container myContent">
             <div class="row row-offcanvas row-offcanvas-right">
                 <div class="col-xs-12 col-sm-12">
+                    
                     <div class="jumbotron">
-                        <h2>Add a new book</h2><br/>                   
+                        <h2>Add a new book</h2><br/>
+                        
                         <form id="add-book-form" onsubmit="return false;">
                             <div class="form-group">
                                 <label for="titleInput">Title</label>
@@ -43,6 +45,11 @@
                             </div>
                             <button type="submit" class="btn btn-primary">Add book</button>
                         </form>
+                        
+                        <div>
+                            <button id="show-add-book-form" class="btn btn-primary">Show/hide an add book form</button>
+                        </div>
+                        
                     </div>
                   
                     <div id="book-list" class="row">
