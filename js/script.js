@@ -1,15 +1,13 @@
 $(document).ready(function() {
     var addBookForm = $('#add-book-form');
     var showAddBookFormBtn = $('#show-add-book-form');
+    var bookList = $('#book-list');
     
     loadBookList();  
     
-    showAddBookFormBtn.on('click', function showForm(event) {
-        var inputs = addBookForm.find('.form-control');
-        inputs.each(function() {
-            console.log($(this));
-        });
-        addBookForm.toggle();
+    showAddBookFormBtn.on('click', function showAddBookForm(event) {
+        addBookForm[0].reset();
+        addBookForm.toggle(400);
     });
     
     addBookForm.on('submit', function addBook(event) {
@@ -33,7 +31,7 @@ $(document).ready(function() {
         });
     });
     
-    $('#book-list').on('click', '.delete-button', function deleteBook(event) {
+    bookList.on('click', '.delete-button', function deleteBook(event) {
         var bookToDeleteId = $(event.target).data('id');
         
         $.ajax({
@@ -50,10 +48,16 @@ $(document).ready(function() {
         });
     });
 
-    $('#book-list').on('click', '.edition-button', function editBook(event) {
+    bookList.on('click', '.edit-button', function showUpdateBookForm(event) {
         var bookId = $(event.target).data('id');
-        $('#update-book-form').remove();
         
+        var form = bookList.find('#update-book-form');
+        var formId = form.data('id');
+        
+        if(bookId == formId) {
+            form.hide('slow', function(){ form.remove()});
+        } else {
+            form.hide('slow', function(){ form.remove()});
         $.ajax({
             url: './api/books.php',
             data: {id: bookId},
@@ -79,7 +83,8 @@ $(document).ready(function() {
                         + '<button type="submit" class="btn btn-primary update-button">Save</button>'
                     + '</form>';
             $(event.target).parent().append(editionForm);
-        }); 
+        });
+    }
     });
     
     $('#book-list').on('submit', '#update-book-form', function updateBook(event) {
@@ -123,8 +128,8 @@ function loadBookList() {
                         + '<h2>' + singleBookData.author + '</h2>'
                         + '<h3>' + singleBookData.title + '</h3>'
                         + '<p>' + singleBookData.description + '</p>'
-                        + '<a class="btn btn-primary edition-button" data-id="' + singleBookData.id +'" role="button">Edit</a>'
-                        + '<a class="btn btn-danger delete-button" data-id="' + singleBookData.id +'" role="button">Delete</a>'
+                        + '<button class="btn btn-primary edit-button" data-id="' + singleBookData.id +'">Edit</button>'
+                        + '<button class="btn btn-danger delete-button" data-id="' + singleBookData.id +'">Delete</button>'
                     + '</div>';
                     $('#book-list').append(singleBookTemplate);
             }
