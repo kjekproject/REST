@@ -66,7 +66,7 @@ $(document).ready(function() {
         })
         .done(function(result) {   
             var singleBookData = result[0];
-            var editionForm = 
+            var updateForm = 
                     '<form id="update-book-form" onsubmit="return false;" data-id="' + singleBookData.id + '">'
                         + '<div class="form-group">'
                             + '<label for="titleInput">Title</label>'
@@ -82,7 +82,8 @@ $(document).ready(function() {
                         + '</div>'
                         + '<button type="submit" class="btn btn-primary update-button">Save</button>'
                     + '</form>';
-            $(event.target).parent().append(editionForm);
+            $(event.target).parent().append(updateForm);
+            $('#update-book-form').show('slow');
         });
     }
     });
@@ -125,12 +126,13 @@ function loadBookList() {
                 var singleBookData = result[i];
                 var singleBookTemplate = 
                     '<div class="col-xs-6 col-lg-4">'
+                    +'<div class="single-record">'
                         + '<h2>' + singleBookData.author + '</h2>'
                         + '<h3>' + singleBookData.title + '</h3>'
                         + '<p>' + singleBookData.description + '</p>'
                         + '<button class="btn btn-primary edit-button" data-id="' + singleBookData.id +'">Edit</button>'
                         + '<button class="btn btn-danger delete-button" data-id="' + singleBookData.id +'">Delete</button>'
-                    + '</div>';
+                    + '</div></div>';
                     $('#book-list').append(singleBookTemplate);
             }
             console.log(loadBookList.name, 'resolved successfully');

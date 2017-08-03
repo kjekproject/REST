@@ -1,3 +1,19 @@
 .myContent {
     margin-top: 90px;
 }
+
+#update-book-form {
+    display: none;
+}
+
+.single-record {
+    border-style: solid;
+    border-color: #F5F5F7;
+    border-width: 3px;
+    border-radius: 7px;
+    padding: 0 0 20px 20px;
+}
+
+.btn {
+    margin-right: 10px;
+}
